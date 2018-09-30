@@ -8,7 +8,7 @@ public class Window {
 	private String title;
 	private int size;
 	private JFrame frame;
-	private Canvas canvas;
+	public static Canvas canvas;
 	
 	public Window(String title, int size) {
 		this.title = title;
