@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -44,13 +45,41 @@ public class Setup implements Runnable {
 		int psX, psY;
 		double pos;
 		int radius = center - 30; // radius of the numbers
+		double time = System.currentTimeMillis();
 		for (int i=1;i<=12;i++) {
-			pos = i/12.0 * Math.PI*2;
-			psX = (int)(center-8 + Math.sin(pos)*radius);
-			psY = (int)(center+10 - Math.cos(pos)*radius);
+			pos = i/12.0 * Math.PI*2.0;
+			psX = (int)(center + Math.sin(pos)*radius);
+			psY = (int)(center - Math.cos(pos)*radius);
 			gr.drawString(Integer.toString(i), psX, psY);
 //          gr.drawString(Integer.toString(i),center-(i/12)*11+(int)(210*Math.sin(i*Math.PI/6)),center-(int)(210*Math.cos(i*Math.PI/6)));
 		}
+		
+		// Draw Second hand
+		radius = center - 50;
+		time = System.currentTimeMillis()/(60.0 *1000.0)*Math.PI*2.0;
+		psX = (int)(center + Math.sin(time)*radius);
+		psY = (int)(center - Math.cos(time)*radius);
+		gr.drawLine(center, center, psX, psY);
+		
+		// Draw Minute hand
+		radius = center - 70;
+		time = System.currentTimeMillis()/(60.0 *60*1000.0)*Math.PI*2.0;
+		psX = (int)(center + Math.sin(time)*radius);
+		psY = (int)(center - Math.cos(time)*radius);
+		gr.setStroke(new BasicStroke(3));
+		gr.drawLine(center, center, psX, psY);
+		
+		// Draw Hour hand
+		radius = center - 90;
+		
+		time = (System.currentTimeMillis()/(60.0 *60*12*1000.0)-2) *Math.PI*2.0;
+		System.out.println(time);
+		psX = (int)(center + Math.sin(time)*radius);
+		psY = (int)(center - Math.cos(time)*radius);
+		gr.setStroke(new BasicStroke(6));
+		gr.drawLine(center, center, psX, psY);
+		
+		
 		// Draw the center
 		gr.setColor(new Color(255,109,87));
 		gr.fillOval(center-5, center-5, 10, 10);
