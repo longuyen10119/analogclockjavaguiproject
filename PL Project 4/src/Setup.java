@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 
@@ -36,10 +37,25 @@ public class Setup implements Runnable {
 		gr.fillOval(0, 0, size, size);
 		gr.setColor(new Color(255,193,87));
 		gr.fillOval(5, 5, size-10, size-10);
-		// Draw the center
+		
+		// Draw Numbers
 		gr.setColor(new Color(58, 135, 170));
+		gr.setFont(new Font("arial", Font.PLAIN, 18));
+		int psX, psY;
+		double line;
+		int radius = center - 30; // radius of the numbers
+		for (int i=1;i<=12;i++) {
+			line = i/12.0 * Math.PI*2;
+			psX = (int)(center-10 + Math.sin(line)*radius);
+			psY = (int)(center+10 - Math.cos(line)*radius);
+			gr.drawString(Integer.toString(i), psX, psY);
+//          gr.drawString(Integer.toString(i),center-(i/12)*11+(int)(210*Math.sin(i*Math.PI/6)),center-(int)(210*Math.cos(i*Math.PI/6)));
+		}
+		// Draw the center
+		gr.setColor(new Color(255,109,87));
 		gr.fillOval(center-5, center-5, 10, 10);
 		
+		// 
 		// ////////////
 		buffer.show();
 		gr.dispose();

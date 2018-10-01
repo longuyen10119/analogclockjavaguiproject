@@ -28,7 +28,7 @@ public class Window {
 		// Set up canvas
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(size, size));
-		canvas.setBackground(new Color(58, 135, 170));
+		canvas.setBackground(new Color(58, 135, 170));//Blue
 		frame.add(canvas);
 		frame.pack();
 		
