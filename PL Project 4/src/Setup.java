@@ -3,6 +3,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class Setup implements Runnable {
 	
@@ -10,7 +12,7 @@ public class Setup implements Runnable {
 	private String title;
 	private int size;
 	private Thread thread;
-	
+	private LocalDateTime localDateTime;
 	private BufferStrategy buffer;
 	private Graphics2D gr;
 	
@@ -54,6 +56,11 @@ public class Setup implements Runnable {
 //          gr.drawString(Integer.toString(i),center-(i/12)*11+(int)(210*Math.sin(i*Math.PI/6)),center-(int)(210*Math.cos(i*Math.PI/6)));
 		}
 		
+		localDateTime = LocalDateTime.now();
+		int s = localDateTime.getSecond();
+        int m = localDateTime.getMinute();
+		int h = localDateTime.getHour();
+		
 		// Draw Second hand
 		radius = center - 50;
 		time = System.currentTimeMillis()/(60.0 *1000.0)*Math.PI*2.0;
@@ -69,11 +76,11 @@ public class Setup implements Runnable {
 		gr.setStroke(new BasicStroke(3));
 		gr.drawLine(center, center, psX, psY);
 		
+
 		// Draw Hour hand
 		radius = center - 90;
 		
-		time = (System.currentTimeMillis()/(60.0 *60*12*1000.0)-2) *Math.PI*2.0;
-		System.out.println(time);
+		time = h*Math.PI *2.0;
 		psX = (int)(center + Math.sin(time)*radius);
 		psY = (int)(center - Math.cos(time)*radius);
 		gr.setStroke(new BasicStroke(6));
