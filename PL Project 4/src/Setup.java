@@ -42,12 +42,12 @@ public class Setup implements Runnable {
 		gr.setColor(new Color(58, 135, 170));
 		gr.setFont(new Font("arial", Font.PLAIN, 18));
 		int psX, psY;
-		double line;
+		double pos;
 		int radius = center - 30; // radius of the numbers
 		for (int i=1;i<=12;i++) {
-			line = i/12.0 * Math.PI*2;
-			psX = (int)(center-10 + Math.sin(line)*radius);
-			psY = (int)(center+10 - Math.cos(line)*radius);
+			pos = i/12.0 * Math.PI*2;
+			psX = (int)(center-8 + Math.sin(pos)*radius);
+			psY = (int)(center+10 - Math.cos(pos)*radius);
 			gr.drawString(Integer.toString(i), psX, psY);
 //          gr.drawString(Integer.toString(i),center-(i/12)*11+(int)(210*Math.sin(i*Math.PI/6)),center-(int)(210*Math.cos(i*Math.PI/6)));
 		}
