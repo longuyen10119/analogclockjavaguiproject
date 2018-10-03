@@ -79,12 +79,12 @@ public class Setup implements Runnable {
 
 		// Draw Hour hand
 		radius = center - 90;
-		
-		time = h*Math.PI *2.0;
-		psX = (int)(center + Math.sin(time)*radius);
-		psY = (int)(center - Math.cos(time)*radius);
+//		System.out.println(Integer.toString(h));
+		time = System.currentTimeMillis()/(60.0*60*12*1000)*Math.PI *2.0+24;
+		int psXh = (int)(center + Math.sin(time)*radius);
+		int psYh = (int)(center - Math.cos(time)*radius);
 		gr.setStroke(new BasicStroke(6));
-		gr.drawLine(center, center, psX, psY);
+		gr.drawLine(center, center, psXh, psYh);
 		
 		
 		// Draw the center

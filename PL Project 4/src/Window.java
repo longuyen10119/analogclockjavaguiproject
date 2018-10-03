@@ -4,8 +4,17 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+/**
+ * Window class sets up sizes for frames and canvas
+ */
 public class Window {
+	/**
+	 * title of the frame
+	 */
 	private String title;
+	/**
+	 * size of frame
+	 */
 	private int size;
 	private JFrame frame;
 	public static Canvas canvas;
