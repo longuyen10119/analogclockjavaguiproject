@@ -16,15 +16,29 @@ public class Window {
 	 * size of frame
 	 */
 	private int size;
+	/**
+	 * JFrame Java
+	 */
 	private JFrame frame;
+	/**
+	 * Canvas for drawing the Clock
+	 */
 	public static Canvas canvas;
 	
+	/**
+	 * Constructor
+	 * @param title Title of the Window
+	 * @param size Size of window in pixels
+	 */
 	public Window(String title, int size) {
 		this.title = title;
 		this.size = size;
 		display();
 	}
 	
+	/**
+	 * Method to set up the frame and canvas
+	 */
 	public void display() {
 		// Set up frame
 		frame = new JFrame(title);

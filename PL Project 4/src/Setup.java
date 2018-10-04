@@ -14,22 +14,59 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * @author longnguyen
+ * Main file to draw all the elements in the Analog Clock
+ */
 public class Setup implements Runnable {
 	
+	/**
+	 * Window object 
+	 */
 	private Window window;
+	/**
+	 * Window title
+	 */
 	private String title;
+	/**
+	 * Size of the window
+	 */
 	private int size;
+	/**
+	 * Thread for clock
+	 */
 	private Thread thread;
+	/**
+	 * To get local Date Time
+	 */
 	private LocalDateTime localDateTime;
+	/**
+	 * Buffer
+	 */
 	private BufferStrategy buffer;
+	/**
+	 * {@link Graphics2D} to draw
+	 */
 	private Graphics2D gr;
+	/**
+	 * Store current temperature in Celsius
+	 */
 	private double currentTemp;
 	
+	/**
+	 * Constructor
+	 * @param title Window title
+	 * @param size Window size
+	 */
 	public Setup(String title, int size) {
 		this.title=title;
 		this.size=size;
 		this.currentTemp = this.getTemperature();
 	}
+	/**
+	 * Method to get current temperature using rest API to openweathermap
+	 * @return temperature in double
+	 */
 	public double getTemperature() {
 		double temp = 0.0;
 		try {
@@ -69,6 +106,9 @@ public class Setup implements Runnable {
 	public void init() {
 		window = new Window(title,size);
 	}
+	/**
+	 * Draw all the elements method
+	 */
 	public void draw() {
 		buffer = window.canvas.getBufferStrategy();
 		if(buffer==null) {
@@ -161,10 +201,16 @@ public class Setup implements Runnable {
 		buffer.show();
 		gr.dispose();
 	}
+	/**
+	 * Start the thread
+	 */
 	public synchronized void start() {
 		thread = new Thread(this);
 		thread.start();
 	}
+	/**
+	 * Stop the thread
+	 */
 	public synchronized void stop() {
 		try {
 			thread.join();
@@ -173,6 +219,9 @@ public class Setup implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		init();
 		// Clock always runs when open
