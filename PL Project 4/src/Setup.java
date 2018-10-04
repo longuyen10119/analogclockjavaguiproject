@@ -7,6 +7,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.ZoneId;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class Setup implements Runnable {
 	
@@ -17,11 +23,48 @@ public class Setup implements Runnable {
 	private LocalDateTime localDateTime;
 	private BufferStrategy buffer;
 	private Graphics2D gr;
-	
+	private double currentTemp;
 	
 	public Setup(String title, int size) {
 		this.title=title;
 		this.size=size;
+		this.currentTemp = this.getTemperature();
+	}
+	public double getTemperature() {
+		double temp = 0.0;
+		try {
+			String myAPIKey = "32a22cf1a4a420d85105239549955464";
+			String cityID = "2165087"; // GOLD COAST CITY
+			URL url = new URL("http://api.openweathermap.org/data/2.5/forecast?id=2165087&APPID="+myAPIKey);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setRequestProperty("Accept", "application/json");
+			
+			if (conn.getResponseCode() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : "
+							+ conn.getResponseCode());
+			}
+
+			BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+			String output;
+			String file = "";
+			System.out.println("Output from Server .... \n");
+			while ((output = br.readLine()) != null) {
+				file = output;
+			}
+			
+			int pos = file.indexOf("temp");
+			String sub = file.substring(pos+6, pos+12);
+			temp = Double.parseDouble(sub) - 273.15;
+			conn.disconnect();
+		}catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return temp;
+		
 	}
 	public void init() {
 		window = new Window(title,size);
@@ -108,6 +151,12 @@ public class Setup implements Runnable {
 		String drawRest = (stringMonth+ " "+ Integer.toString(date) +" "+ Integer.toString(year) );
 		gr.drawString(dayW.toString(), center+35, center-10);
 		gr.drawString(drawRest, center+35, center+10);
+		
+		// Draw temperature
+		gr.setFont(new Font("Stencil", Font.BOLD, 18));
+		int temp = (int) Math.round(this.currentTemp);
+		gr.drawString(Integer.toString(temp) + "°C", center - 100, center -60);
+		gr.drawString("Gold Coast", center - 100, center -40);
 		// ////////////
 		buffer.show();
 		gr.dispose();
