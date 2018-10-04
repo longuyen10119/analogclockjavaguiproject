@@ -3,7 +3,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 
 public class Setup implements Runnable {
@@ -15,6 +17,7 @@ public class Setup implements Runnable {
 	private LocalDateTime localDateTime;
 	private BufferStrategy buffer;
 	private Graphics2D gr;
+	
 	
 	public Setup(String title, int size) {
 		this.title=title;
@@ -53,7 +56,6 @@ public class Setup implements Runnable {
 			psX = (int)(center + Math.sin(pos)*radius);
 			psY = (int)(center - Math.cos(pos)*radius);
 			gr.drawString(Integer.toString(i), psX, psY);
-//          gr.drawString(Integer.toString(i),center-(i/12)*11+(int)(210*Math.sin(i*Math.PI/6)),center-(int)(210*Math.cos(i*Math.PI/6)));
 		}
 		
 		localDateTime = LocalDateTime.now();
@@ -80,6 +82,8 @@ public class Setup implements Runnable {
 		// Draw Hour hand
 		radius = center - 90;
 //		System.out.println(Integer.toString(h));
+		double time1 = System.currentTimeMillis();
+		double time2 =  time1 + 3600000 + 14000 ;
 		time = System.currentTimeMillis()/(60.0*60*12*1000)*Math.PI *2.0+24;
 		int psXh = (int)(center + Math.sin(time)*radius);
 		int psYh = (int)(center - Math.cos(time)*radius);
@@ -91,7 +95,19 @@ public class Setup implements Runnable {
 		gr.setColor(new Color(255,109,87));
 		gr.fillOval(center-5, center-5, 10, 10);
 		
-		// 
+		
+		// Draw Date
+		gr.setFont(new Font("Stencil", Font.ITALIC, 14));
+
+		gr.setColor(new Color(58, 135, 170));
+		DayOfWeek dayW = localDateTime.getDayOfWeek();
+		int date = localDateTime.getDayOfMonth();
+		Month month = localDateTime.getMonth();
+		String stringMonth = month.toString();
+		int year = localDateTime.getYear();
+		String drawRest = (stringMonth+ " "+ Integer.toString(date) +" "+ Integer.toString(year) );
+		gr.drawString(dayW.toString(), center+35, center-10);
+		gr.drawString(drawRest, center+35, center+10);
 		// ////////////
 		buffer.show();
 		gr.dispose();
